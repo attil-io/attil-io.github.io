@@ -1,0 +1,120 @@
+<html>
+<head>
+<style>
+#container {
+  
+}
+#glass, #bottle {
+    border: 2px solid blue;
+
+    vertical-align: bottom;
+    display: inline-block;
+
+    zoom: 1;
+}
+
+#glass {
+    margin: 20px 20px 0 20px;
+    padding: 20px;
+    width: 120px;
+    height: 100px;
+        
+    background: linear-gradient(to top, blue 30%, white 0%); 
+}
+
+#bottle {
+    margin: 20px 20px 0 20px;
+    padding: 20px;
+    width: 80px;
+    height: 300px;
+
+    background: linear-gradient(to top, blue 70%, white 0%); 
+}
+
+#sliderContainer {
+}
+
+#pour {
+  width: 350px;
+}
+
+#glassDrink, #bottleDrink {
+  width: 350px;
+}
+</style>
+
+<script>
+ const glassCapacity = 70, bottleCapacity = 100;
+ 
+ var bottleContent = 70,
+     glassContent = 30,
+     glassContentStart = 30,
+     bottleContentStart = 70;
+ 
+ function updatePourSlider(slideAmount) {
+        glassContent = Math.min(slideAmount, glassCapacity);
+        glassContentStart = glassContent;
+        bottleContent = bottleCapacity - slideAmount;
+        bottleContentStart = bottleContent;
+        var bottleDiv = document.getElementById("bottle"),
+            glassDiv = document.getElementById("glass"),
+            drinkGlassSlider = document.getElementById("glassDrink"),
+            drinkBottleSlider = document.getElementById("bottleDrink"),
+            glassPercent = 1.5*glassContent,
+            bottlePercent = bottleContent;
+        
+       
+        bottleDiv.style.background = 'linear-gradient(to top, blue ' + bottlePercent + '%, white 0%)';
+        glassDiv.style.background = 'linear-gradient(to top, blue ' + glassPercent + '%, white 0%)';
+        
+        drinkGlassSlider.value = 0;
+        drinkGlassSlider.max = glassContentStart;
+
+        drinkBottleSlider.value = 0;
+        drinkBottleSlider.max = bottleContentStart;
+}
+    
+    
+ function updateGlassDrinkSlider(slideAmount) {
+        glassContent = glassContentStart-slideAmount;
+        var glassDiv = document.getElementById("glass"),
+            glassPercent = 1.5*glassContent;
+         
+        glassDiv.style.background = 'linear-gradient(to top, blue ' + glassPercent + '%, white 0%)';
+        
+    }
+    
+ function updateBottleDrinkSlider(slideAmount) {
+        bottleContent = bottleContentStart-slideAmount;
+        var bottleDiv = document.getElementById("bottle"),
+            bottlePercent = bottleContent;
+         
+        bottleDiv.style.background = 'linear-gradient(to top, blue ' + bottlePercent + '%, white 0%)';
+       
+    }
+</script>
+</head>
+<body>
+<div id="container">
+    <div id="bottle">Botella</div>
+    <div id="glass">Vaso</div>
+    
+</div>
+<div id="sliderContainer">
+    <p>
+         Hechar el agua al vaso
+    </p>
+    <input type="range" min="0" max="100" value="30" id="pour" onchange="updatePourSlider(this.value)">
+    <p>
+         Tomar del vaso
+    </p>
+    <input type="range" min="0" max="30" value="0" id="glassDrink" onchange="updateGlassDrinkSlider(this.value)">
+    
+    <p>
+         Tomar de la botella
+    </p>
+    <input type="range" min="0" max="70" value="0" id="bottleDrink" onchange="updateBottleDrinkSlider(this.value)">
+    
+</div>
+</body>
+</html>
